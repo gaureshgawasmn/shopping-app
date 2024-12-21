@@ -1,3 +1,5 @@
+import { Page } from '../shared/page.model';
+
 export interface Product {
   id: number;
   sku: string; // SKU (Stock Keeping Unit)
@@ -15,4 +17,5 @@ export interface GetProductsResponse {
   _embedded: {
     products: Product[];
   };
+  page: Page;
 }

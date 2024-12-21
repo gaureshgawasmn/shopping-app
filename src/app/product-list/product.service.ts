@@ -20,6 +20,15 @@ export class ProductService {
     return this.getProducts(searchUrl);
   }
 
+  getProductListPaginate(
+    categoryId: number,
+    pageNumber: number,
+    pageSize: number
+  ): Observable<GetProductsResponse> {
+    const searchUrl = `${this.BASE_URL}/products/search/findByCategoryId?id=${categoryId}&page=${pageNumber}&size=${pageSize}`;
+    return this.httpClient.get<GetProductsResponse>(searchUrl);
+  }
+
   getProduct(id: number): Observable<Product> {
     const searchUrl = `${this.BASE_URL}/products/${id}`;
     return this.httpClient.get<Product>(searchUrl);
@@ -34,6 +43,23 @@ export class ProductService {
   searchProduct(name: string): Observable<Product[]> {
     const searchUrl = `${this.BASE_URL}/products/search/findByNameContaining?name=${name}`;
     return this.getProducts(searchUrl);
+  }
+
+  searchAllProductPaginate(
+    pageNumber: number,
+    pageSize: number
+  ): Observable<GetProductsResponse> {
+    const searchUrl = `${this.BASE_URL}/products?page=${pageNumber}&size=${pageSize}`;
+    return this.httpClient.get<GetProductsResponse>(searchUrl);
+  }
+
+  searchProductPaginate(
+    name: string,
+    pageNumber: number,
+    pageSize: number
+  ): Observable<GetProductsResponse> {
+    const searchUrl = `${this.BASE_URL}/products/search/findByNameContaining?name=${name}&page=${pageNumber}&size=${pageSize}`;
+    return this.httpClient.get<GetProductsResponse>(searchUrl);
   }
 
   private getProducts(searchUrl: string): Observable<Product[]> {

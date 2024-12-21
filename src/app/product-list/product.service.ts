@@ -17,14 +17,23 @@ export class ProductService {
 
   getProductList(categoryId: number): Observable<Product[]> {
     const searchUrl = `${this.BASE_URL}/products/search/findByCategoryId?id=${categoryId}`;
-    return this.httpClient
-      .get<GetProductsResponse>(searchUrl)
-      .pipe(map((response) => response._embedded.products));
+    return this.getProducts(searchUrl);
   }
 
   getProductCategoryList(): Observable<ProductCategory[]> {
     return this.httpClient
       .get<GetProductCategoryResponse>(`${this.BASE_URL}/product-category`)
       .pipe(map((response) => response._embedded.productCategories));
+  }
+
+  searchProduct(name: string): Observable<Product[]> {
+    const searchUrl = `${this.BASE_URL}/products/search/findByNameContaining?name=${name}`;
+    return this.getProducts(searchUrl);
+  }
+
+  private getProducts(searchUrl: string): Observable<Product[]> {
+    return this.httpClient
+      .get<GetProductsResponse>(searchUrl)
+      .pipe(map((response) => response._embedded.products));
   }
 }

@@ -24,10 +24,21 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     const subscription = this.activateRoute.paramMap.subscribe((params) => {
-      this.categoryId = +(params.get('categoryId') ?? '1');
-      this.productService.getProductList(this.categoryId).subscribe((data) => {
-        this.products = data;
-      });
+      const searchMode = params.has('keyword');
+      if (searchMode) {
+        this.productService
+          .searchProduct(params.get('keyword') ?? '')
+          .subscribe((data) => {
+            this.products = data;
+          });
+      } else {
+        this.categoryId = +(params.get('categoryId') ?? '1');
+        this.productService
+          .getProductList(this.categoryId)
+          .subscribe((data) => {
+            this.products = data;
+          });
+      }
     });
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();

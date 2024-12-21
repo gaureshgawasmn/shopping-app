@@ -7,7 +7,7 @@ import { GetProductsResponse, Product } from './product.model';
   providedIn: 'root',
 })
 export class ProductService {
-  private readonly BASE_URL = 'http://localhost:8081/api/products';
+  private readonly BASE_URL = 'http://localhost:8081/api/products?size=100';
 
   constructor(private readonly httpClient: HttpClient) {}
 

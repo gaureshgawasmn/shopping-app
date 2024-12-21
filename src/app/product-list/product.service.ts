@@ -20,6 +20,11 @@ export class ProductService {
     return this.getProducts(searchUrl);
   }
 
+  getProduct(id: number): Observable<Product> {
+    const searchUrl = `${this.BASE_URL}/products/${id}`;
+    return this.httpClient.get<Product>(searchUrl);
+  }
+
   getProductCategoryList(): Observable<ProductCategory[]> {
     return this.httpClient
       .get<GetProductCategoryResponse>(`${this.BASE_URL}/product-category`)

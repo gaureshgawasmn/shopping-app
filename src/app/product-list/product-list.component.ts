@@ -1,6 +1,6 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component, DestroyRef, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Product } from './product.model';
 import { ProductService } from './product.service';
@@ -8,7 +8,7 @@ import { ProductService } from './product.service';
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, RouterLink],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',
 })

@@ -1,20 +1,30 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
+import {
+  GetProductCategoryResponse,
+  ProductCategory,
+} from '../side-nav/product-category.model';
 import { GetProductsResponse, Product } from './product.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  private readonly BASE_URL = 'http://localhost:8081/api/products';
+  private readonly BASE_URL = 'http://localhost:8081/api';
 
   constructor(private readonly httpClient: HttpClient) {}
 
   getProductList(categoryId: number): Observable<Product[]> {
-    const searchUrl = `${this.BASE_URL}/search/findByCategoryId?id=${categoryId}`;
+    const searchUrl = `${this.BASE_URL}/products/search/findByCategoryId?id=${categoryId}`;
     return this.httpClient
       .get<GetProductsResponse>(searchUrl)
       .pipe(map((response) => response._embedded.products));
+  }
+
+  getProductCategoryList(): Observable<ProductCategory[]> {
+    return this.httpClient
+      .get<GetProductCategoryResponse>(`${this.BASE_URL}/product-category`)
+      .pipe(map((response) => response._embedded.productCategories));
   }
 }

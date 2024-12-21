@@ -1,4 +1,5 @@
 export interface Product {
+  id: number;
   sku: string; // SKU (Stock Keeping Unit)
   name: string; // Name of the product
   description: string; // Description of the product
@@ -10,8 +11,8 @@ export interface Product {
   lastUpdated: Date; // Date when the product was updated
 }
 
-export interface GetProductsResponse{
-    _embedded : {
-      products: Product[]
-    }
-  }
+export interface GetProductsResponse {
+  _embedded: {
+    products: Product[];
+  };
+}

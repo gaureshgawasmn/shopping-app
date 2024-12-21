@@ -1,5 +1,7 @@
 import { CurrencyPipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Product } from './product.model';
 import { ProductService } from './product.service';
 
@@ -11,16 +13,24 @@ import { ProductService } from './product.service';
   styleUrl: './product-list.component.css',
 })
 export class ProductListComponent implements OnInit {
+  categoryId = 1;
   products: Product[] = [];
-  constructor(private readonly productService: ProductService) {}
+  subscription: Subscription | undefined;
+  constructor(
+    private readonly productService: ProductService,
+    private readonly activateRoute: ActivatedRoute,
+    private readonly destroyRef: DestroyRef
+  ) {}
 
   ngOnInit(): void {
-    this.listProducts();
-  }
-
-  listProducts() {
-    this.productService.getProductList().subscribe((data) => {
-      this.products = data;
+    const subscription = this.activateRoute.paramMap.subscribe((params) => {
+      this.categoryId = +(params.get('categoryId') ?? '1');
+      this.productService.getProductList(this.categoryId).subscribe((data) => {
+        this.products = data;
+      });
+    });
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
     });
   }
 }

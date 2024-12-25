@@ -27,7 +27,8 @@ ul {
 }
 
 button,
-input[type="button"] {
+input[type="button"],
+.clickable {
   cursor: pointer;
 }
 

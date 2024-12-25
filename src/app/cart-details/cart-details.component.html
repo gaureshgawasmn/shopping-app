@@ -1,0 +1,87 @@
+<div class="main-content">
+  <div class="section-content section-content-p30">
+    <div class="container-fluid">
+      @if(cartItems().length>0){
+      <table class="table table-bordered">
+        <tr>
+          <th width="20%" class="table-bordered">Product Image</th>
+          <th width="50%">Product Details</th>
+          <th width="30%">Product Image</th>
+        </tr>
+        @for (item of cartItems(); track item.id) {
+        <tr>
+          <td>
+            <img
+              [src]="item.imageUrl"
+              class="img-responsive"
+              alt=""
+              width="150px"
+            />
+          </td>
+          <td>
+            <p>{{ item.name }}</p>
+            <p>{{ item.unitPrice | currency : "INR" }}</p>
+          </td>
+          <td>
+            <div class="items">
+              <label for="quantity">Quantity: </label>
+              <div class="row no-gutters">
+                <div class="col">
+                  <button
+                    (click)="incrementQuantity(item)"
+                    class="btn btn-primary btn-sm"
+                  >
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+                <div class="col ml-4 mr-2">
+                  {{ item.quantity }}
+                </div>
+                <div class="col">
+                  <button
+                    (click)="decrementQuantity(item)"
+                    class="btn btn-primary btn-sm"
+                  >
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+                <div class="col-8"></div>
+              </div>
+
+              <button
+                (click)="removeItem(item)"
+                class="btn btn-primary btn-sm mt-2"
+              >
+                Remove
+              </button>
+              <p class="mt-2">
+                Subtotal:
+                {{ item.quantity * item.unitPrice | currency : "INR" }}
+              </p>
+            </div>
+          </td>
+        </tr>
+        }
+        <tr>
+          <td colspan="2"></td>
+          <td style="font-weight: bold">
+            <p>Total Quantity: {{ totalQuantity() }}</p>
+            <p>
+              Shipping:
+              {{ totalPrice() > 200 ? "FREE" : (50 | currency : "INR") }}
+            </p>
+            <p>Total Price: {{ totalPrice() | currency : "INR" }}</p>
+          </td>
+        </tr>
+      </table>
+      } @else {
+      <div class="alert alert-warning col-md-12" role="alert">
+        <h2>No items in the cart!</h2>
+        <p>
+          Please make sure you have added items to the cart before proceeding!
+        </p>
+      </div>
+      }
+    </div>
+  </div>
+</div>

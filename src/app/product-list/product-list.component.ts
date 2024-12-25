@@ -3,6 +3,8 @@ import { Component, DestroyRef, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
+import { createCartItem } from '../cart-status/cart-item';
+import { CartService } from '../cart-status/cart.service';
 import { GetProductsResponse, Product } from './product.model';
 import { ProductService } from './product.service';
 
@@ -25,7 +27,8 @@ export class ProductListComponent implements OnInit {
   constructor(
     private readonly productService: ProductService,
     private readonly activateRoute: ActivatedRoute,
-    private readonly destroyRef: DestroyRef
+    private readonly destroyRef: DestroyRef,
+    private readonly cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -73,5 +76,10 @@ export class ProductListComponent implements OnInit {
     this.pageSize = +pageSize;
     this.pageNumber = 1;
     this.listProducts();
+  }
+
+  addToCart(product: Product) {
+    console.log('adding product to cart ');
+    this.cartService.addToCart(createCartItem(product));
   }
 }

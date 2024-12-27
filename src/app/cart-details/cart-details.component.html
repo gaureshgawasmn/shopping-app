@@ -71,6 +71,11 @@
               {{ totalPrice() > 200 ? "FREE" : (50 | currency : "INR") }}
             </p>
             <p>Total Price: {{ totalPrice() | currency : "INR" }}</p>
+            <div class="col">
+              <a routerLink="/checkout" class="btn btn-primary btn-sm mt-2">
+                Checkout
+              </a>
+            </div>
           </td>
         </tr>
       </table>

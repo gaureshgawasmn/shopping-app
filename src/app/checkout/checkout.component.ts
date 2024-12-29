@@ -9,8 +9,11 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CartService } from '../cart-status/cart.service';
+import { Purchase } from '../shared/checkout.model';
 import { FormErrorComponent } from '../shared/form-error/form-error.component';
+import { CheckoutService } from './checkout.service';
 import { Country } from './country.model';
 import { FormService } from './form.service';
 import { State } from './state.model';
@@ -62,7 +65,9 @@ export function notOnlyWhiteSpace(): ValidatorFn {
 export class CheckoutComponent implements OnInit {
   constructor(
     private readonly cartService: CartService,
-    private readonly formService: FormService
+    private readonly formService: FormService,
+    private readonly checkOutService: CheckoutService,
+    private readonly router: Router
   ) {
     this.formService.ngOnInit();
   }
@@ -119,7 +124,7 @@ export class CheckoutComponent implements OnInit {
         Validators.required,
         notOnlyWhiteSpace(),
       ]),
-      state: new FormControl<number | null>(null, Validators.required),
+      state: new FormControl<string | null>(null, Validators.required),
       zipCode: new FormControl<string>('', [
         Validators.required,
         Validators.minLength(2),
@@ -136,7 +141,7 @@ export class CheckoutComponent implements OnInit {
         Validators.required,
         notOnlyWhiteSpace(),
       ]),
-      state: new FormControl<number | null>(null, Validators.required),
+      state: new FormControl<string | null>(null, Validators.required),
       zipCode: new FormControl<string>('', [
         Validators.required,
         Validators.minLength(2),
@@ -169,6 +174,83 @@ export class CheckoutComponent implements OnInit {
     if (this.checkOutFromGroup.invalid) {
       this.checkOutFromGroup.markAllAsTouched();
     }
+
+    const purchase: Purchase = {
+      customer: {
+        firstName:
+          this.checkOutFromGroup.controls.customer.controls.firstName.value!,
+        lastName:
+          this.checkOutFromGroup.controls.customer.controls.lastName.value!,
+        email: this.checkOutFromGroup.controls.customer.controls.email.value!,
+      },
+      shippingAddress: {
+        street:
+          this.checkOutFromGroup.controls.shippingAddress.controls.street
+            .value!,
+        city: this.checkOutFromGroup.controls.shippingAddress.controls.city
+          .value!,
+        state:
+          this.checkOutFromGroup.controls.shippingAddress.controls.state.value!,
+        country:
+          this.checkOutFromGroup.controls.shippingAddress.controls.country.value
+            ?.code!,
+        zipCode:
+          this.checkOutFromGroup.controls.shippingAddress.controls.zipCode
+            .value!,
+      },
+      billingAddress: {
+        street:
+          this.checkOutFromGroup.controls.billingAddress.controls.street.value!,
+        city: this.checkOutFromGroup.controls.billingAddress.controls.city
+          .value!,
+        state:
+          this.checkOutFromGroup.controls.billingAddress.controls.state.value!,
+        country:
+          this.checkOutFromGroup.controls.billingAddress.controls.country.value
+            ?.code!,
+        zipCode:
+          this.checkOutFromGroup.controls.billingAddress.controls.zipCode
+            .value!,
+      },
+      order: {
+        totalPrice: this.totalPrice(),
+        totalQuantity: this.totalQuantity(),
+      },
+      orderItems: this.getOrderItems(),
+    };
+
+    this.checkOutService.placeOrder(purchase).subscribe({
+      next: (response) => {
+        alert(
+          `Your order has been received.\nOrder tracking number ${response.orderTrackingNumber}`
+        );
+        this.resetCart();
+      },
+      error: (error) => {
+        alert(`There was an error: ${error.message}`);
+      },
+    });
+  }
+
+  resetCart() {
+    // reset cart
+    this.cartService.cartItems.set([]);
+    this.cartService.computeCartTotal();
+
+    // reset form
+    this.checkOutFromGroup.reset();
+
+    // navigate back to product page
+    this.router.navigateByUrl('/products');
+  }
+
+  getOrderItems() {
+    return this.cartService.cartItems().map((cartItem) => ({
+      imageUrl: cartItem.imageUrl,
+      quantity: cartItem.quantity,
+      unitPrice: cartItem.unitPrice,
+      productId: cartItem.id,
+    }));
   }
 
   copyShippingToBilling(event: any) {
@@ -217,7 +299,7 @@ export class CheckoutComponent implements OnInit {
         this.shippingStates = states;
       }
       if (states.length > 0) {
-        formGroup.controls.state.setValue(states[0].id);
+        formGroup.controls.state.setValue(states[0].name);
       }
     });
   }

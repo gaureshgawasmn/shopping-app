@@ -46,8 +46,13 @@
             </div>
             <div class="col-md-9">
               <div class="input-space">
-                <select formControlName="country">
-                  <option value="">TODO</option>
+                <select
+                  formControlName="country"
+                  (change)="updateStates('shippingAddress')"
+                >
+                  @for (country of contries; track $index) {
+                  <option [ngValue]="country">{{ country.name }}</option>
+                  }
                 </select>
               </div>
             </div>
@@ -79,7 +84,9 @@
             <div class="col-md-9">
               <div class="input-space">
                 <select formControlName="state">
-                  <option value="">TODO</option>
+                  @for (state of shippingStates; track $index) {
+                  <option [value]="state.id">{{ state.name }}</option>
+                  }
                 </select>
               </div>
             </div>
@@ -114,8 +121,13 @@
             </div>
             <div class="col-md-9">
               <div class="input-space">
-                <select formControlName="country">
-                  <option value="">TODO</option>
+                <select
+                  formControlName="country"
+                  (change)="updateStates('billingAddress')"
+                >
+                  @for (country of contries; track $index) {
+                  <option [ngValue]="country">{{ country.name }}</option>
+                  }
                 </select>
               </div>
             </div>
@@ -147,7 +159,9 @@
             <div class="col-md-9">
               <div class="input-space">
                 <select formControlName="state">
-                  <option value="">TODO</option>
+                  @for (state of billingStates; track $index) {
+                  <option [value]="state.id">{{ state.name }}</option>
+                  }
                 </select>
               </div>
             </div>
@@ -212,24 +226,31 @@
           </div>
           <div class="row">
             <div class="col-md-2">
-              <label for="expirationMonth">Expiration Month</label>
+              <label for="expirationYear">Expiration Year</label>
             </div>
             <div class="col-md-9">
               <div class="input-space">
-                <select formControlName="expirationMonth">
-                  <option value="">TODO</option>
+                <select
+                  formControlName="expirationYear"
+                  (change)="onCreditCardYearChange()"
+                >
+                  @for (year of creditCardYears(); track $index) {
+                  <option>{{ year }}</option>
+                  }
                 </select>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-md-2">
-              <label for="expirationYear">Expiration Year</label>
+              <label for="expirationMonth">Expiration Month</label>
             </div>
             <div class="col-md-9">
               <div class="input-space">
-                <select formControlName="expirationYear">
-                  <option value="">TODO</option>
+                <select formControlName="expirationMonth">
+                  @for (month of creditCardMonths(); track $index) {
+                  <option>{{ month }}</option>
+                  }
                 </select>
               </div>
             </div>

@@ -202,6 +202,9 @@ export class CheckoutComponent implements OnInit {
       !isNaN(validYear) && validYear > 0 ? validYear : new Date().getFullYear();
 
     this.formService.updateCreditCardMonths(yearToUse);
+    this.checkOutFromGroup.controls.creditCard.controls.expirationMonth.setValue(
+      this.creditCardMonths()[0]
+    );
   }
 
   updateStates(formGroupName: 'shippingAddress' | 'billingAddress') {
@@ -217,34 +220,6 @@ export class CheckoutComponent implements OnInit {
         formGroup.controls.state.setValue(states[0].id);
       }
     });
-  }
-
-  get customersError() {
-    let errorMessages: string[] = [];
-    // Define fields that need to be validated
-    const fields = [
-      {
-        name: 'First Name',
-        control: this.checkOutFromGroup.controls.customer.controls.firstName,
-      },
-      {
-        name: 'Last Name',
-        control: this.checkOutFromGroup.controls.customer.controls.lastName,
-      },
-      {
-        name: 'Email',
-        control: this.checkOutFromGroup.controls.customer.controls.email,
-      },
-    ];
-
-    // Collect error messages for each field
-    fields.forEach((field) => {
-      return errorMessages.push(
-        ...this.getFieldErrors(field.name, field.control)
-      );
-    });
-
-    return errorMessages;
   }
 
   getFieldErrors(fieldName: string, field: FormControl<any>): string[] {
@@ -286,114 +261,142 @@ export class CheckoutComponent implements OnInit {
     return errorMessages;
   }
 
-  get shippingAddressErrors(): string[] {
-    const errorMessages: string[] = [];
-
-    const fields = [
-      {
-        name: 'Country',
-        control:
-          this.checkOutFromGroup.controls.shippingAddress.controls.country,
-      },
-      {
-        name: 'Street',
-        control:
-          this.checkOutFromGroup.controls.shippingAddress.controls.street,
-      },
-      {
-        name: 'City',
-        control: this.checkOutFromGroup.controls.shippingAddress.controls.city,
-      },
-      {
-        name: 'State',
-        control: this.checkOutFromGroup.controls.shippingAddress.controls.state,
-      },
-      {
-        name: 'Zip Code',
-        control:
-          this.checkOutFromGroup.controls.shippingAddress.controls.zipCode,
-      },
-    ];
-
-    fields.forEach((field) => {
-      errorMessages.push(...this.getFieldErrors(field.name, field.control));
-    });
-
-    return errorMessages;
+  // customers error start
+  get firstNameErrors(): string[] {
+    return this.getFieldErrors(
+      'First Name',
+      this.checkOutFromGroup.controls.customer.controls.firstName
+    );
   }
 
-  get billingAddressErrors(): string[] {
-    const errorMessages: string[] = [];
-
-    const fields = [
-      {
-        name: 'Country',
-        control:
-          this.checkOutFromGroup.controls.billingAddress.controls.country,
-      },
-      {
-        name: 'Street',
-        control: this.checkOutFromGroup.controls.billingAddress.controls.street,
-      },
-      {
-        name: 'City',
-        control: this.checkOutFromGroup.controls.billingAddress.controls.city,
-      },
-      {
-        name: 'State',
-        control: this.checkOutFromGroup.controls.billingAddress.controls.state,
-      },
-      {
-        name: 'Zip Code',
-        control:
-          this.checkOutFromGroup.controls.billingAddress.controls.zipCode,
-      },
-    ];
-
-    fields.forEach((field) => {
-      errorMessages.push(...this.getFieldErrors(field.name, field.control));
-    });
-
-    return errorMessages;
+  get lastNameErrors(): string[] {
+    return this.getFieldErrors(
+      'Last Name',
+      this.checkOutFromGroup.controls.customer.controls.lastName
+    );
   }
 
-  get creditCardErrors(): string[] {
-    const errorMessages: string[] = [];
-
-    const fields = [
-      {
-        name: 'Card Type',
-        control: this.checkOutFromGroup.controls.creditCard.controls.cardType,
-      },
-      {
-        name: 'Name on Card',
-        control: this.checkOutFromGroup.controls.creditCard.controls.nameOnCard,
-      },
-      {
-        name: 'Card Number',
-        control: this.checkOutFromGroup.controls.creditCard.controls.cardNumber,
-      },
-      {
-        name: 'Security Code',
-        control:
-          this.checkOutFromGroup.controls.creditCard.controls.securityCode,
-      },
-      {
-        name: 'Expiration Month',
-        control:
-          this.checkOutFromGroup.controls.creditCard.controls.expirationMonth,
-      },
-      {
-        name: 'Expiration Year',
-        control:
-          this.checkOutFromGroup.controls.creditCard.controls.expirationYear,
-      },
-    ];
-
-    fields.forEach((field) => {
-      errorMessages.push(...this.getFieldErrors(field.name, field.control));
-    });
-
-    return errorMessages;
+  get emailErrors(): string[] {
+    return this.getFieldErrors(
+      'Email',
+      this.checkOutFromGroup.controls.customer.controls.email
+    );
   }
+  // customers error end
+
+  // Shipping and Billing Address Error start
+  get countryShippingErrors(): string[] {
+    return this.getFieldErrors(
+      'Country',
+      this.checkOutFromGroup.controls.shippingAddress.controls.country
+    );
+  }
+
+  get streetShippingErrors(): string[] {
+    return this.getFieldErrors(
+      'Street',
+      this.checkOutFromGroup.controls.shippingAddress.controls.street
+    );
+  }
+
+  get cityShippingErrors(): string[] {
+    return this.getFieldErrors(
+      'City',
+      this.checkOutFromGroup.controls.shippingAddress.controls.city
+    );
+  }
+
+  get stateShippingErrors(): string[] {
+    return this.getFieldErrors(
+      'State',
+      this.checkOutFromGroup.controls.shippingAddress.controls.state
+    );
+  }
+
+  get zipCodeShippingErrors(): string[] {
+    return this.getFieldErrors(
+      'Zip Code',
+      this.checkOutFromGroup.controls.shippingAddress.controls.zipCode
+    );
+  }
+
+  get countryBillingErrors(): string[] {
+    return this.getFieldErrors(
+      'Country',
+      this.checkOutFromGroup.controls.billingAddress.controls.country
+    );
+  }
+
+  get streetBillingErrors(): string[] {
+    return this.getFieldErrors(
+      'Street',
+      this.checkOutFromGroup.controls.billingAddress.controls.street
+    );
+  }
+
+  get cityBillingErrors(): string[] {
+    return this.getFieldErrors(
+      'City',
+      this.checkOutFromGroup.controls.billingAddress.controls.city
+    );
+  }
+
+  get stateBillingErrors(): string[] {
+    return this.getFieldErrors(
+      'State',
+      this.checkOutFromGroup.controls.billingAddress.controls.state
+    );
+  }
+
+  get zipCodeBillingErrors(): string[] {
+    return this.getFieldErrors(
+      'Zip Code',
+      this.checkOutFromGroup.controls.billingAddress.controls.zipCode
+    );
+  }
+  // Shipping and Billing Address Error end
+
+  // Credit Card Field Error start
+  get cardTypeErrors(): string[] {
+    return this.getFieldErrors(
+      'Card Type',
+      this.checkOutFromGroup.controls.creditCard.controls.cardType
+    );
+  }
+
+  get nameOnCardErrors(): string[] {
+    return this.getFieldErrors(
+      'Name on Card',
+      this.checkOutFromGroup.controls.creditCard.controls.nameOnCard
+    );
+  }
+
+  get cardNumberErrors(): string[] {
+    return this.getFieldErrors(
+      'Card Number',
+      this.checkOutFromGroup.controls.creditCard.controls.cardNumber
+    );
+  }
+
+  get securityCodeErrors(): string[] {
+    return this.getFieldErrors(
+      'Security Code',
+      this.checkOutFromGroup.controls.creditCard.controls.securityCode
+    );
+  }
+
+  get expirationMonthErrors(): string[] {
+    return this.getFieldErrors(
+      'Expiration Month',
+      this.checkOutFromGroup.controls.creditCard.controls.expirationMonth
+    );
+  }
+
+  get expirationYearErrors(): string[] {
+    return this.getFieldErrors(
+      'Expiration Year',
+      this.checkOutFromGroup.controls.creditCard.controls.expirationYear
+    );
+  }
+  // Credit Card Field Error end
 }

@@ -13,6 +13,7 @@
               <div class="input-space">
                 <input formControlName="firstName" type="text" />
               </div>
+              <app-form-error [errors]="firstNameErrors"></app-form-error>
             </div>
           </div>
           <div class="row">
@@ -23,6 +24,7 @@
               <div class="input-space">
                 <input formControlName="lastName" type="text" />
               </div>
+              <app-form-error [errors]="lastNameErrors"></app-form-error>
             </div>
           </div>
           <div class="row">
@@ -33,9 +35,9 @@
               <div class="input-space">
                 <input formControlName="email" type="email" />
               </div>
+              <app-form-error [errors]="emailErrors"></app-form-error>
             </div>
           </div>
-          <app-form-error [errors]="customersError"></app-form-error>
         </div>
 
         <!--Shipping Address-->
@@ -56,6 +58,7 @@
                   }
                 </select>
               </div>
+              <app-form-error [errors]="countryShippingErrors"></app-form-error>
             </div>
           </div>
           <div class="row">
@@ -66,6 +69,7 @@
               <div class="input-space">
                 <input formControlName="street" type="text" />
               </div>
+              <app-form-error [errors]="streetShippingErrors"></app-form-error>
             </div>
           </div>
           <div class="row">
@@ -76,6 +80,7 @@
               <div class="input-space">
                 <input formControlName="city" type="text" />
               </div>
+              <app-form-error [errors]="cityShippingErrors"></app-form-error>
             </div>
           </div>
           <div class="row">
@@ -90,6 +95,7 @@
                   }
                 </select>
               </div>
+              <app-form-error [errors]="stateShippingErrors"></app-form-error>
             </div>
           </div>
           <div class="row">
@@ -100,9 +106,9 @@
               <div class="input-space">
                 <input formControlName="zipCode" type="text" />
               </div>
+              <app-form-error [errors]="zipCodeShippingErrors"></app-form-error>
             </div>
           </div>
-          <app-form-error [errors]="shippingAddressErrors"></app-form-error>
         </div>
 
         <!--Add check to copy shipping address to billing address-->
@@ -132,6 +138,7 @@
                   }
                 </select>
               </div>
+              <app-form-error [errors]="countryBillingErrors"></app-form-error>
             </div>
           </div>
           <div class="row">
@@ -142,6 +149,7 @@
               <div class="input-space">
                 <input formControlName="street" type="text" />
               </div>
+              <app-form-error [errors]="streetBillingErrors"></app-form-error>
             </div>
           </div>
           <div class="row">
@@ -152,6 +160,7 @@
               <div class="input-space">
                 <input formControlName="city" type="text" />
               </div>
+              <app-form-error [errors]="cityBillingErrors"></app-form-error>
             </div>
           </div>
           <div class="row">
@@ -166,6 +175,7 @@
                   }
                 </select>
               </div>
+              <app-form-error [errors]="stateBillingErrors"></app-form-error>
             </div>
           </div>
           <div class="row">
@@ -176,9 +186,9 @@
               <div class="input-space">
                 <input formControlName="zipCode" type="text" />
               </div>
+              <app-form-error [errors]="zipCodeBillingErrors"></app-form-error>
             </div>
           </div>
-          <app-form-error [errors]="billingAddressErrors"></app-form-error>
         </div>
 
         <!--Credit Card Information-->
@@ -195,6 +205,7 @@
                   <option value="">MasterCard</option>
                 </select>
               </div>
+              <app-form-error [errors]="cardTypeErrors"></app-form-error>
             </div>
           </div>
           <div class="row">
@@ -205,6 +216,7 @@
               <div class="input-space">
                 <input formControlName="nameOnCard" type="text" />
               </div>
+              <app-form-error [errors]="nameOnCardErrors"></app-form-error>
             </div>
           </div>
           <div class="row">
@@ -215,6 +227,7 @@
               <div class="input-space">
                 <input formControlName="cardNumber" type="number" />
               </div>
+              <app-form-error [errors]="cardNumberErrors"></app-form-error>
             </div>
           </div>
           <div class="row">
@@ -225,6 +238,7 @@
               <div class="input-space">
                 <input formControlName="securityCode" type="number" />
               </div>
+              <app-form-error [errors]="securityCodeErrors"></app-form-error>
             </div>
           </div>
           <div class="row">
@@ -242,6 +256,7 @@
                   }
                 </select>
               </div>
+              <app-form-error [errors]="expirationYearErrors"></app-form-error>
             </div>
           </div>
           <div class="row">
@@ -258,7 +273,7 @@
               </div>
             </div>
           </div>
-          <app-form-error [errors]="creditCardErrors"></app-form-error>
+          <app-form-error [errors]="expirationMonthErrors"></app-form-error>
         </div>
 
         <!--Order Details-->

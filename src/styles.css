@@ -609,7 +609,8 @@ input.au-input.au-input-xl {
   margin-bottom: 50px;
 }
 .input-space input[type="text"],
-.input-space input[type="email"] {
+.input-space input[type="email"],
+.input-space input[type="number"] {
   width: 100%;
   height: 40px;
   border-radius: 30px;
@@ -617,6 +618,24 @@ input.au-input.au-input-xl {
   padding: 10px;
   border: 1px solid #ccc;
 }
+
+/* Hide number input arrows in Webkit browsers (Chrome, Safari, Opera) */
+.input-space input[type="number"]::-webkit-outer-spin-button,
+.input-space input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide number input arrows in Firefox */
+.input-space input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Hide number input arrows in Edge */
+.input-space input[type="number"]::-ms-clear {
+  display: none;
+}
+
 .input-space select {
   width: 100%;
   height: 40px;
